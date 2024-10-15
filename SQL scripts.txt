@@ -1,0 +1,272 @@
+-- CREATE DATABASE small_scale_industries;
+
+-- USE small_scale_industries;
+
+-- Create table for SmallScaleIndustry.
+-- CREATE TABLE SmallScaleIndustry (
+    -- IndustryID INT PRIMARY KEY,
+    -- IndustryName VARCHAR(100) NOT NULL,
+    -- Sector VARCHAR(50),
+    -- Location VARCHAR(100),
+    -- NumberOfEmployees INT,
+    -- AnnualRevenue DECIMAL(15, 2)
+    -- );
+
+-- Create table for LoanApplication.
+-- CREATE TABLE LoanApplication (
+    -- ApplicationID INT PRIMARY KEY,
+    -- IndustryID INT,
+    -- ServiceID INT,
+    -- ApplicationDate DATE,
+    -- ApprovalStatus VARCHAR(20),
+    -- LoanAmount DECIMAL(15, 2),
+    -- FOREIGN KEY (IndustryID) REFERENCES SmallScaleIndustry(IndustryID),
+	-- FOREIGN KEY (ServiceID) REFERENCES FinancialService(ServiceID)
+-- );
+-- CREATE TABLE FinancialInstitution (
+    -- InstitutionID INT PRIMARY KEY,
+    -- InstitutionName VARCHAR(100) NOT NULL,
+    -- InstitutionType VARCHAR(50),
+    -- ContactInfo VARCHAR(100)
+-- );
+
+-- Create table for SupportProgram.
+-- CREATE TABLE SupportProgram (
+    -- ProgramID INT PRIMARY KEY,
+    -- ProgramName VARCHAR(100) NOT NULL,
+    -- Description TEXT,
+    -- EligibilityCriteria TEXT,
+    -- Benefits TEXT
+-- );
+
+-- Create table for Transaction.
+-- CREATE TABLE Transaction (
+    -- TransactionID INT PRIMARY KEY,
+    -- IndustryID INT,
+    -- ServiceID INT,
+    -- TransactionDate DATE,
+    -- Amount DECIMAL(15, 2),
+    -- FOREIGN KEY (IndustryID) REFERENCES SmallScaleIndustry(IndustryID),
+    -- FOREIGN KEY (ServiceID) REFERENCES FinancialService(ServiceID)
+-- );
+
+-- Create junction table for SmallScaleIndustry and SupportProgram (Many-to-Many relationship).
+-- CREATE TABLE IndustrySupportProgram (
+    -- IndustryID INT,
+    -- ProgramID INT,
+    -- PRIMARY KEY (IndustryID, ProgramID),
+    -- FOREIGN KEY (IndustryID) REFERENCES SmallScaleIndustry(IndustryID),
+    -- FOREIGN KEY (ProgramID) REFERENCES SupportProgram(ProgramID)
+-- ); 
+
+-- Create table for FinancialService.
+-- CREATE TABLE FinancialService (
+    -- ServiceID INT PRIMARY KEY,
+    -- ServiceName VARCHAR(100) NOT NULL,
+    -- ServiceType VARCHAR(50),
+    -- InterestRate DECIMAL(5, 2),
+    -- Terms TEXT
+    -- );
+
+-- Sample data to populate the database schema we created for enhancing financial inclusion for small-scale industries:
+-- Insert sample data into SmallScaleIndustry.
+-- INSERT INTO SmallScaleIndustry (IndustryID, IndustryName, Sector, Location, NumberOfEmployees, AnnualRevenue)
+-- VALUES
+-- (1, 'GreenTech Solutions', 'Technology', 'Nairobi', 50, 500000.00),
+-- (2, 'EcoFarm Produce', 'Agriculture', 'Machakos', 30, 300000.00),
+-- (3, 'UrbanCrafts', 'Manufacturing', 'Mombasa', 20, 150000.00);
+
+-- Insert sample data into FinancialService.
+-- INSERT INTO FinancialService (ServiceID, ServiceName, ServiceType, InterestRate, Terms)
+-- VALUES
+-- (1, 'Microloan', 'Loan', 5.00, 'Repayable in 12 months'),
+-- (2, 'Business Grant', 'Grant', 0.00, 'Non-repayable'),
+-- (3, 'Credit Line', 'Credit', 7.50, 'Revolving credit line');
+
+-- Insert sample data into LoanApplication.
+-- INSERT INTO LoanApplication (ApplicationID, IndustryID, ServiceID, ApplicationDate, ApprovalStatus, LoanAmount)
+-- VALUES
+-- (1, 1, 1, '2024-01-15', 'Approved', 10000.00),
+-- (2, 2, 2, '2024-02-20', 'Pending', 5000.00),
+-- (3, 3, 3, '2024-03-10', 'Rejected', 20000.00);
+
+-- Insert sample data into FinancialInstitution.
+-- INSERT INTO FinancialInstitution (InstitutionID, InstitutionName, InstitutionType, ContactInfo)
+-- VALUES
+-- (1, 'National Bank', 'Bank', 'contact@nationalbank.com'),
+-- (2, 'Microfinance Kenya', 'Microfinance', 'info@microfinancekenya.org'),
+-- (3, 'Development Fund', 'Fund', 'support@developmentfund.org');
+
+-- Insert sample data into SupportProgram.
+-- INSERT INTO SupportProgram (ProgramID, ProgramName, Description, EligibilityCriteria, Benefits)
+-- VALUES
+-- (1, 'Startup Boost', 'Support for new startups', 'New businesses under 2 years old', 'Grants, training, mentorship'),
+-- (2, 'Growth Accelerator', 'Support for growing businesses', 'Businesses with revenue under $500,000', 'Loans, market access, advisory services'),
+-- (3, 'Innovation Hub', 'Support for innovative projects', 'Projects with a focus on technology and sustainability', 'Funding, incubation, networking');
+
+-- Insert sample data into Transaction.
+-- INSERT INTO Transaction (TransactionID, IndustryID, ServiceID, TransactionDate, Amount)
+-- VALUES
+-- (1, 1, 1, '2024-04-01', 5000.00),
+-- (2, 2, 2, '2024-04-15', 2500.00),
+-- (3, 3, 3, '2024-05-01', 10000.00);
+
+-- Insert sample data into IndustrySupportProgram (junction table).
+-- INSERT INTO IndustrySupportProgram (IndustryID, ProgramID)
+-- VALUES
+-- (1, 1),
+-- (2, 2),
+-- (3, 3);
+
+-- SQL queries to retrieve relevant data based on the problem definition of enhancing financial inclusion for small-scale industries:
+-- Retrieve all small-scale industries and their loan applications:
+-- SELECT 
+    -- s.IndustryName, 
+    -- l.ApplicationID, 
+    -- l.ApplicationDate, 
+    -- l.ApprovalStatus, 
+    -- l.LoanAmount
+-- FROM 
+    -- SmallScaleIndustry s
+-- JOIN 
+    -- LoanApplication l ON s.IndustryID = l.IndustryID;
+    
+-- Retrieve financial services offered by each financial institution:
+-- SELECT 
+    -- f.InstitutionName, 
+    -- s.ServiceName, 
+    -- s.ServiceType, 
+    -- s.InterestRate
+-- FROM 
+    -- FinancialInstitution f
+-- JOIN 
+    -- FinancialService s ON f.InstitutionID = s.ServiceID;
+    
+-- Retrieve all transactions for a specific small-scale industry:
+-- SELECT 
+    -- t.TransactionID, 
+    -- t.TransactionDate, 
+    -- t.Amount, 
+    -- s.ServiceName
+-- FROM 
+    -- Transaction t
+-- JOIN 
+    -- FinancialService s ON t.ServiceID = s.ServiceID
+-- WHERE 
+    -- t.IndustryID = 3; -- Replace 1 with the specific IndustryID
+
+-- Retrieve all support programs a specific small-scale industry is enrolled in:
+-- SELECT 
+    -- i.IndustryName, 
+    -- p.ProgramName, 
+    -- p.Description
+-- FROM 
+    -- SmallScaleIndustry i
+-- JOIN 
+    -- IndustrySupportProgram isp ON i.IndustryID = isp.IndustryID
+-- JOIN 
+    -- SupportProgram p ON isp.ProgramID = p.ProgramID
+-- WHERE 
+    -- i.IndustryID = 1; -- Replace 1 with the specific IndustryID
+
+-- Retrieve the total loan amount approved for each small-scale industry:
+-- SELECT 
+    -- s.IndustryName, 
+    -- SUM(l.LoanAmount) AS TotalLoanAmount
+-- FROM 
+    -- SmallScaleIndustry s
+-- JOIN 
+    -- LoanApplication l ON s.IndustryID = l.IndustryID
+-- WHERE 
+    -- l.ApprovalStatus = 'Approved'
+-- GROUP BY 
+    -- s.IndustryName;  
+
+-- Retrieve the number of loan applications and their approval status for each financial service:
+-- SELECT 
+    -- f.ServiceName, 
+    -- COUNT(l.ApplicationID) AS NumberOfApplications, 
+    -- l.ApprovalStatus
+-- FROM 
+    -- FinancialService f
+-- JOIN 
+    -- LoanApplication l ON f.ServiceID = l.ServiceID
+-- GROUP BY 
+    -- f.ServiceName, 
+    -- l.ApprovalStatus;
+    
+-- SQL queries to analyze data and generate insights related to enhancing financial inclusion for small-scale industries:    
+-- Analyze the approval rate of loan applications:
+-- SELECT 
+    -- ApprovalStatus, 
+    -- COUNT(ApplicationID) AS NumberOfApplications,
+    -- ROUND((COUNT(ApplicationID) * 100.0 / (SELECT COUNT(*) FROM LoanApplication)), 2) AS ApprovalRate
+-- FROM 
+    -- LoanApplication
+-- GROUP BY 
+    -- ApprovalStatus;
+    
+-- Identify the average loan amount approved for each financial service:
+-- SELECT 
+    -- f.ServiceName, 
+    -- AVG(l.LoanAmount) AS AverageLoanAmount
+-- FROM 
+    -- FinancialService f
+-- JOIN 
+    -- LoanApplication l ON f.ServiceID = l.ServiceID
+-- WHERE 
+    -- l.ApprovalStatus = 'Approved'
+-- GROUP BY 
+    -- f.ServiceName;    
+
+-- Determine the total funding received by each small-scale industry:
+-- SELECT 
+    -- s.IndustryName, 
+    -- SUM(l.LoanAmount) AS TotalFundingReceived
+-- FROM 
+    -- SmallScaleIndustry s
+-- JOIN 
+    -- LoanApplication l ON s.IndustryID = l.IndustryID
+-- WHERE 
+    -- l.ApprovalStatus = 'Approved'
+-- GROUP BY 
+    -- s.IndustryName;
+    
+-- Analyze the distribution of financial services by financial institutions:
+-- SELECT 
+    -- fi.InstitutionName, 
+    -- COUNT(fs.ServiceID) AS NumberOfServices
+-- FROM 
+    -- FinancialInstitution fi
+-- JOIN 
+    -- FinancialService fs ON fi.InstitutionID = fs.ServiceID
+-- GROUP BY 
+    -- fi.InstitutionName;
+    
+-- Evaluate the participation of small-scale industries in support programs:
+SELECT 
+    sp.ProgramName, 
+    COUNT(isp.IndustryID) AS NumberOfIndustries
+FROM 
+    SupportProgram sp
+JOIN 
+    IndustrySupportProgram isp ON sp.ProgramID = isp.ProgramID
+GROUP BY 
+    sp.ProgramName;
+
+-- Assess the impact of financial services on industry growth (based on annual revenue):
+-- SELECT 
+    -- s.IndustryName, 
+    -- s.AnnualRevenue, 
+    -- SUM(t.Amount) AS TotalTransactions
+-- FROM 
+    -- SmallScaleIndustry s
+-- OIN 
+    -- Transaction t ON s.IndustryID = t.IndustryID
+-- GROUP BY 
+    -- s.IndustryName, 
+    -- s.AnnualRevenue
+-- ORDER BY 
+    -- TotalTransactions DESC;
+    
+    
